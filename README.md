@@ -3,8 +3,10 @@ A Sample to demonstrate the concept of EdgeModule with an Inner Device.
 ## NEED
 * Ability to send Cloud to Device Sync and Async Messages to an IoTEdge Module 
 
+![MythicalEdge C2D](./MythicalEdgeC2D.png)
 
-https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-c2d-guidance
+
+https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-c2d-guidance<br>
 IoT Hub provides three options for device apps to expose functionality to a back-end app:
 
 Direct methods for communications that require immediate confirmation of the result. Direct methods are often used for interactive control of devices such as turning on a fan.
