@@ -37,6 +37,82 @@
       "windows": {
         "program": "${workspaceFolder}\\modules\\MythicalIInnerDeviceEdgeModule\\main.py"
       }
+    },
+    {
+      "name": "MythicalInnerDevice Remote Debug (.NET Core)",
+      "type": "coreclr",
+      "request": "attach",
+      "processId": "${command:pickRemoteProcess}",
+      "pipeTransport": {
+        "pipeProgram": "docker",
+        "pipeArgs": [
+          "exec",
+          "-i",
+          "MythicalInnerDevice",
+          "sh",
+          "-c"
+        ],
+        "debuggerPath": "~/vsdbg/vsdbg",
+        "pipeCwd": "${workspaceFolder}",
+        "quoteArgs": true
+      },
+      "sourceFileMap": {
+        "/app": "${workspaceFolder}/modules/MythicalInnerDevice"
+      },
+      "justMyCode": true
+    },
+    {
+      "name": "MythicalInnerDevice Local Debug (.NET Core)",
+      "type": "coreclr",
+      "request": "launch",
+      "program": "${workspaceRoot}/modules/MythicalInnerDevice/bin/Debug/netcoreapp3.1/MythicalInnerDevice.dll",
+      "args": [],
+      "cwd": "${workspaceRoot}/modules/MythicalInnerDevice",
+      "internalConsoleOptions": "openOnSessionStart",
+      "stopAtEntry": false,
+      "console": "internalConsole",
+      "env": {
+        "EdgeHubConnectionString": "${config:azure-iot-edge.EdgeHubConnectionString}",
+        "EdgeModuleCACertificateFile": "${config:azure-iot-edge.EdgeModuleCACertificateFile}"
+      }
+    },
+    {
+      "name": "MythicalEdgeModule Remote Debug (.NET Core)",
+      "type": "coreclr",
+      "request": "attach",
+      "processId": "${command:pickRemoteProcess}",
+      "pipeTransport": {
+        "pipeProgram": "docker",
+        "pipeArgs": [
+          "exec",
+          "-i",
+          "MythicalEdgeModule",
+          "sh",
+          "-c"
+        ],
+        "debuggerPath": "~/vsdbg/vsdbg",
+        "pipeCwd": "${workspaceFolder}",
+        "quoteArgs": true
+      },
+      "sourceFileMap": {
+        "/app": "${workspaceFolder}/modules/MythicalEdgeModule"
+      },
+      "justMyCode": true
+    },
+    {
+      "name": "MythicalEdgeModule Local Debug (.NET Core)",
+      "type": "coreclr",
+      "request": "launch",
+      "program": "${workspaceRoot}/modules/MythicalEdgeModule/bin/Debug/netcoreapp3.1/MythicalEdgeModule.dll",
+      "args": [],
+      "cwd": "${workspaceRoot}/modules/MythicalEdgeModule",
+      "internalConsoleOptions": "openOnSessionStart",
+      "stopAtEntry": false,
+      "console": "internalConsole",
+      "env": {
+        "EdgeHubConnectionString": "${config:azure-iot-edge.EdgeHubConnectionString}",
+        "EdgeModuleCACertificateFile": "${config:azure-iot-edge.EdgeModuleCACertificateFile}"
+      }
     }
   ]
 }

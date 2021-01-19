@@ -22,7 +22,7 @@
           "edgeAgent": {
             "type": "docker",
             "settings": {
-              "image": "mcr.microsoft.com/azureiotedge-agent:1.0",
+              "image": "mcr.microsoft.com/azureiotedge-agent:1.0.10.4",
               "createOptions": {}
             }
           },
@@ -31,7 +31,7 @@
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "mcr.microsoft.com/azureiotedge-hub:1.0",
+              "image": "mcr.microsoft.com/azureiotedge-hub:1.0.10.4",
               "createOptions": {
                 "HostConfig": {
                   "PortBindings": {
@@ -57,36 +57,42 @@
           }
         },
         "modules": {
-          "MythicalIInnerDeviceEdgeModule": {
+          "containerinsights": {
             "version": "1.0",
             "type": "docker",
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "${MODULES.MythicalIInnerDeviceEdgeModule.debug}",
-              "createOptions": {
-                "ExposedPorts": {
-                  "5678/tcp": {}
-                },
-                "HostConfig": {
-                  "PortBindings": {
-                    "5678/tcp": [
-                      {
-                        "HostPort": "5678"
-                      }
-                    ]
-                  }
-                }
+              "image": "mcr.microsoft.com/azuremonitor/containerinsights/ciprod:iot-0.1.3.3"
+            },
+            "env": {
+              "UploadTarget": {
+                "value": "AzureMonitor"
+              },
+              "LogAnalyticsWorkspaceId": {
+                "value": "${LOGANALYTICS_WorkspaceId}"
+              },
+              "LogAnalyticsSharedKey": {
+                "value": "${LOGANALYTICS_SharedKey}"
+              },
+              "HubResourceID": {
+                "value": "${LOGANALYTICS_HubResourceId}"
+              },
+              "MetricsEndpointsCSV": {
+                "value": "http://edgeHub:9600/metrics,http://edgeAgent:9600/metrics"
+              },
+              "ScrapeFrequencyInSecs": {
+                "value": "30"
               }
             }
           },
-          "SimulatedTemperatureSensor": {
+          "MythicalEdgeModule": {
             "version": "1.0",
             "type": "docker",
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "mcr.microsoft.com/azureiotedge-simulated-temperature-sensor:1.0",
+              "image": "${MODULES.MythicalEdgeModule}",
               "createOptions": {}
             }
           }
@@ -97,8 +103,7 @@
       "properties.desired": {
         "schemaVersion": "1.0",
         "routes": {
-          "MythicalIInnerDeviceEdgeModuleToIoTHub": "FROM /messages/modules/MythicalIInnerDeviceEdgeModule/outputs/* INTO $upstream",
-          "sensorToMythicalIInnerDeviceEdgeModule": "FROM /messages/modules/SimulatedTemperatureSensor/outputs/temperatureOutput INTO BrokeredEndpoint(\"/modules/MythicalIInnerDeviceEdgeModule/inputs/input1\")"
+          "MythicalEdgeModuleToIoTHub": "FROM /messages/modules/MythicalEdgeModule/outputs/* INTO $upstream"
         },
         "storeAndForwardConfiguration": {
           "timeToLiveSecs": 7200

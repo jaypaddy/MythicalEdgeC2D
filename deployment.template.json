@@ -57,16 +57,6 @@
           }
         },
         "modules": {
-          "MythicalIInnerDeviceEdgeModule": {
-            "version": "1.0",
-            "type": "docker",
-            "status": "running",
-            "restartPolicy": "always",
-            "settings": {
-              "image": "${MODULES.MythicalIInnerDeviceEdgeModule}",
-              "createOptions": {}
-            }
-          },
           "SimulatedTemperatureSensor": {
             "version": "1.0",
             "type": "docker",
